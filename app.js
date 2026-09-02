@@ -20,6 +20,7 @@
   var drawBtn    = document.getElementById('drawBtn');
   var nextBtn    = document.getElementById('nextBtn');
   var eyebrowEl  = document.getElementById('eyebrow');
+  var sigilEl    = document.getElementById('sigil');
   var questionEl = document.getElementById('question');
   var counterEl  = document.getElementById('counter');
   var fillEl     = document.getElementById('progressFill');
@@ -66,6 +67,59 @@
     return text
       .replace(/\s+([?!;:%»])/g, FINE + '$1')
       .replace(/(«)\s+/g, '$1' + FINE);
+  }
+
+  /* ---------- Constellations ----------
+     Chaque question porte sa propre figure, dérivée de son texte : la même
+     question donne toujours la même, deux questions différentes en donnent
+     deux différentes. Même vocabulaire que l'emblème du dos — un cercle,
+     des points, des liens. Les sommets sont pris dans l'ordre du cercle,
+     ce qui donne toujours un polygone convexe, jamais de figure emmêlée. */
+
+  function hashText(text) {
+    var h = 2166136261;
+    for (var i = 0; i < text.length; i++) {
+      h ^= text.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  function sigil(seed) {
+    var N = 16, RING = 21, R = 13.5, C = 24;
+    var s = seed || 1;
+    function next() { s = (Math.imul(s, 1103515245) + 12345) >>> 0; return s / 4294967296; }
+    function round(v) { return Math.round(v * 100) / 100; }
+
+    var k = 2 + Math.floor(next() * 4); // de 2 à 5 sommets
+    var nodes = [Math.floor(next() * N)];
+    for (var tries = 0; nodes.length < k && tries < 400; tries++) {
+      var p = Math.floor(next() * N);
+      var libre = nodes.every(function (q) {
+        var d = Math.abs(p - q);
+        return Math.min(d, N - d) >= 2; // jamais deux sommets collés
+      });
+      if (libre) nodes.push(p);
+    }
+    nodes.sort(function (a, b) { return a - b; });
+
+    var pts = nodes.map(function (i) {
+      var a = (i / N) * Math.PI * 2 - Math.PI / 2;
+      return [round(C + Math.cos(a) * R), round(C + Math.sin(a) * R)];
+    });
+
+    var trait = pts.map(function (pt, i) { return (i ? 'L' : 'M') + pt[0] + ' ' + pt[1]; }).join(' ');
+    if (pts.length > 2) trait += ' Z';
+
+    var points = pts.map(function (pt, i) {
+      return '<circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="' + (i ? 1.6 : 2.4) +
+             '" fill="currentColor" stroke="none"/>';
+    }).join('');
+
+    return '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" ' +
+           'stroke-linejoin="round" stroke-linecap="round">' +
+           '<circle cx="' + C + '" cy="' + C + '" r="' + RING + '" opacity=".3"/>' +
+           '<path d="' + trait + '" opacity=".8"/>' + points + '</svg>';
   }
 
   function deck() { return decks[mode]; }
@@ -124,6 +178,7 @@
     if (!d.pool.length) { showEnd(); return; }
 
     var item = d.pool.pop();
+    sigilEl.innerHTML = sigil(hashText(item.text));
     eyebrowEl.textContent = item.theme || d.label;
     questionEl.textContent = typo(item.text);
     questionEl.classList.toggle('is-long', item.text.length > LONG_QUESTION);

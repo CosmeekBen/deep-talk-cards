@@ -4,10 +4,16 @@ Un paquet de cartes face cachée, pensé pour le mobile. On touche la pile, la
 première carte se retourne, on lit la question, on écarte la carte, et on
 repioche. Une carte tirée ne revient pas tant que la page n'est pas rechargée.
 
-Deux modes, chacun avec son paquet, son ambiance et son propre avancement :
-**Deep Talk** (nuit et laiton) et **Crousti** (cave à vin et braise). On bascule
-de l'un à l'autre en cours de partie sans rien perdre — chaque pile garde les
-cartes qui lui restent.
+Deux modes, chacun avec son paquet et son propre avancement : **Deep Talk** et
+**Crousti**. On bascule de l'un à l'autre en cours de partie sans rien perdre —
+chaque pile garde les cartes qui lui restent.
+
+La direction artistique tient en une variable. Les deux modes partagent le même
+noir ; seul l'accent change — ivoire achromatique pour Deep Talk, rouge signal
+pour Crousti. Typographie Instrument Serif pour les questions, Instrument Sans
+pour l'interface. Et chaque question porte sa propre constellation, générée à
+partir de son texte : la même question donne toujours la même figure, et les 57
+en donnent 57 différentes.
 
 Pas de build, pas de dépendances : quatre fichiers et un navigateur.
 
@@ -47,15 +53,16 @@ ajoutées à l'affichage — inutile de s'en occuper dans les données.
 
 Pour ajouter un troisième mode : une entrée de plus dans `DEEP_TALK_DECKS`, un
 bouton de plus dans le sélecteur de `index.html` (avec le bon `data-mode`), et
-un bloc de couleurs `:root[data-mode="…"]` dans `styles.css`.
+un bloc de jetons `:root[data-mode="…"]` dans `styles.css` — en pratique, une
+seule couleur à choisir, le reste en découle.
 
 ## Les fichiers
 
 | Fichier | Rôle |
 | --- | --- |
 | `index.html` | La structure : paquet, carte à deux faces, écran de fin, sélecteur de mode. |
-| `styles.css` | Le style, les deux palettes et les animations (retournement 3D, épaisseur du paquet). |
-| `app.js` | Les paquets, le mélange, la pioche, les états de la carte. |
+| `styles.css` | Les jetons de couleur des deux modes, le style et les animations (retournement 3D, épaisseur du paquet). |
+| `app.js` | Les paquets, le mélange, la pioche, les états de la carte, le générateur de constellations. |
 | `questions.js` | Les données — le seul fichier à toucher pour changer le contenu. |
 
 ## Comment ça marche
@@ -72,6 +79,11 @@ L'avancement se lit à trois endroits : le compteur `restantes / total`, la barr
 sous l'en-tête, et l'épaisseur de la pile. Le sélecteur de mode est verrouillé
 tant qu'une carte est retournée — on ne change pas de paquet au milieu d'une
 question.
+
+La constellation de chaque carte vient d'un hachage FNV-1a de son texte, qui
+alimente un tirage déterministe : de 2 à 5 sommets pris sur un cercle de 16
+positions, jamais deux collés, reliés dans l'ordre du cercle — ce qui donne
+toujours un polygone convexe, jamais une figure emmêlée.
 
 Détails mobiles : plein écran en `100dvh`, `safe-area-inset` pour les encoches,
 carte bornée par la hauteur réellement disponible (`cqh`) pour ne jamais déborder,

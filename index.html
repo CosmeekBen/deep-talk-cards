@@ -5,13 +5,13 @@
 <title>Deep Talk — Cartes à questions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="description" content="Une pile de cartes à piocher pour lancer de vraies conversations. Deux modes : Deep Talk et Crousti.">
-<meta name="theme-color" content="#100c1a">
+<meta name="theme-color" content="#08090b">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -57,7 +57,11 @@
 
           <!-- Face avant : la question -->
           <div class="face face--front" id="front">
-            <span class="eyebrow" id="eyebrow"></span>
+            <div class="card-head">
+              <!-- Constellation propre à cette question, générée depuis son texte -->
+              <div class="sigil" id="sigil" aria-hidden="true"></div>
+              <span class="eyebrow" id="eyebrow"></span>
+            </div>
             <p class="question" id="question"></p>
             <button class="next-btn" id="nextBtn" type="button">Carte suivante</button>
           </div>
