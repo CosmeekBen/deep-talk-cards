@@ -89,7 +89,7 @@ window.YAPPY_DECKS = {
       "L'endroit le plus insolite où tu as ken ?",
       "Est-ce que tu as déjà flirté avec quelqu'un uniquement pour l'ego ?",
       "Pour ou contre les jeux de rôles ?",
-      "Si tu étais célibataire, avec qui pourrais-tu coucher ici ?"
+      "Avec combien de personnes présentes ici tu pourrais coucher ?"
     ]
   }
 
