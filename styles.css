@@ -1,30 +1,70 @@
 /* ============================================================
    Deep Talk — feuille de style
-   Pensée mobile d'abord : plein écran, pas de scroll, safe-areas.
+   Mobile d'abord : plein écran, pas de scroll, safe-areas.
+   Deux ambiances, une par mode, pilotées par [data-mode] sur <html>.
    ============================================================ */
 
 :root {
-  --bg-deep:      #100c1a;
-  --bg-glow:      #2a1f45;
-  --ink:          #f4efe6;
-  --ink-soft:     rgba(244, 239, 230, .55);
-  --gold:         #d8b26a;
-  --gold-soft:    rgba(216, 178, 106, .35);
+  /* --- Ambiance par défaut : Deep Talk, nuit et laiton --- */
+  --bg-deep:        #100c1a;
+  --bg-glow:        #2a1f45;
+  --ink:            #f4efe6;
+  --ink-soft:       rgba(244, 239, 230, .55);
+  --ink-faint:      rgba(244, 239, 230, .12);
 
-  --paper:        #f7f2e8;
-  --paper-edge:   #e6dcc9;
-  --paper-ink:    #221c2e;
+  --accent:         #d8b26a;
+  --accent-soft:    rgba(216, 178, 106, .34);
+  --accent-glow:    rgba(216, 178, 106, .10);
+
+  --back-1:         #3a2f57;
+  --back-2:         #241c39;
+  --back-3:         #1a1428;
+  --pattern-angle:  45deg;
+
+  --paper:          #f7f2e8;
+  --paper-top:      #fffdf8;
+  --paper-edge:     #e6dcc9;
+  --paper-ink:      #221c2e;
   --paper-ink-soft: #6b6076;
 
-  --radius:       26px;
-  --flip:         720ms cubic-bezier(.22, .9, .28, 1);
-  --lift:         420ms cubic-bezier(.22, .9, .28, 1);
+  --radius:         26px;
+  --flip:           720ms cubic-bezier(.22, .9, .28, 1);
+  --lift:           420ms cubic-bezier(.22, .9, .28, 1);
+  --tint:           520ms ease;
 
-  --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-ui:        'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display:   'Fraunces', Georgia, 'Times New Roman', serif;
+}
+
+/* --- Ambiance Crousti : cave à vin et braise --- */
+:root[data-mode="crousti"] {
+  --bg-deep:        #17090f;
+  --bg-glow:        #45182b;
+  --ink:            #f7ebe9;
+  --ink-soft:       rgba(247, 235, 233, .55);
+  --ink-faint:      rgba(247, 235, 233, .12);
+
+  --accent:         #ec6a86;
+  --accent-soft:    rgba(236, 106, 134, .34);
+  --accent-glow:    rgba(236, 106, 134, .12);
+
+  --back-1:         #58253c;
+  --back-2:         #3a1727;
+  --back-3:         #230c17;
+  --pattern-angle:  -45deg;
+
+  --paper:          #fbf2ec;
+  --paper-top:      #fffaf6;
+  --paper-edge:     #f0ddd3;
+  --paper-ink:      #2b1620;
+  --paper-ink-soft: #7d6169;
 }
 
 * { box-sizing: border-box; }
+
+/* Une règle d'auteur sur .endscreen l'emporterait sinon sur le display:none
+   du navigateur : on rend l'attribut hidden non négociable. */
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -42,6 +82,7 @@ body {
   user-select: none;
   -webkit-user-select: none;
   overflow: hidden;
+  transition: background var(--tint), color var(--tint);
 }
 
 /* Halo d'ambiance derrière le paquet */
@@ -51,7 +92,8 @@ body::before {
   inset: 0;
   background:
     radial-gradient(120% 70% at 50% 22%, var(--bg-glow) 0%, transparent 62%),
-    radial-gradient(80% 50% at 50% 100%, rgba(216,178,106,.10) 0%, transparent 70%);
+    radial-gradient(80% 50% at 50% 100%, var(--accent-glow) 0%, transparent 70%);
+  transition: background var(--tint);
   pointer-events: none;
 }
 
@@ -60,13 +102,14 @@ body::before {
 .app {
   position: relative;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 12px;
   height: 100vh;
   height: 100dvh;
   padding:
     calc(env(safe-area-inset-top) + 14px)
     calc(env(safe-area-inset-right) + 18px)
-    calc(env(safe-area-inset-bottom) + 14px)
+    calc(env(safe-area-inset-bottom) + 12px)
     calc(env(safe-area-inset-left) + 18px);
 }
 
@@ -83,20 +126,24 @@ body::before {
   display: flex;
   align-items: center;
   gap: 9px;
+  min-width: 0;
 }
 
 .brand__mark {
+  flex-shrink: 0;
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 14px var(--gold-soft);
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent-soft);
+  transition: background var(--tint), box-shadow var(--tint);
 }
 
 .brand__name {
   font-family: var(--font-display);
   font-size: 17px;
   letter-spacing: .04em;
+  white-space: nowrap;
 }
 
 .counter {
@@ -106,6 +153,27 @@ body::before {
   letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ---------- Avancement ---------- */
+
+.progress {
+  height: 3px;
+  border-radius: 99px;
+  background: var(--ink-faint);
+  overflow: hidden;
+}
+
+.progress__fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+  transform: scaleX(var(--p, 0));
+  transform-origin: 0 50%;
+  transition: transform 520ms cubic-bezier(.22, .9, .28, 1), background var(--tint);
 }
 
 /* ---------- Scène centrale ---------- */
@@ -116,11 +184,13 @@ body::before {
   place-items: center;
   min-height: 0;
   perspective: 1600px;
+  container-type: size; /* pour borner la carte par la hauteur réellement libre */
 }
 
 .deck {
   position: relative;
-  width: min(82vw, 340px);
+  width: min(82vw, 340px);                        /* repli si cqh non supporté */
+  width: min(82vw, 340px, calc(100cqh * 0.658));  /* 0.658 = 5 / 7.6, le ratio de la carte */
   aspect-ratio: 5 / 7.6;
   max-height: 100%;
   transition: opacity 320ms ease, transform 320ms ease;
@@ -137,11 +207,11 @@ body::before {
   position: absolute;
   inset: 0;
   border-radius: var(--radius);
-  background: linear-gradient(160deg, #2c2440, #1b1529);
+  background: linear-gradient(160deg, var(--back-2), var(--back-3));
   border: 1px solid rgba(255, 255, 255, .07);
   box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
-  transition: transform var(--lift), opacity var(--lift);
   transform-origin: 50% 90%;
+  transition: transform var(--lift), opacity var(--lift), background var(--tint);
 }
 
 .deck__layer[data-layer="1"] { transform: translateY(6px)  scale(.978) rotate(-1.1deg); }
@@ -185,6 +255,10 @@ body::before {
   flex-direction: column;
 }
 
+/* La face cachée ne doit jamais intercepter les taps */
+.card.is-flipped .face--back { pointer-events: none; }
+.card:not(.is-flipped) .face--front { pointer-events: none; }
+
 /* --- Dos de carte --- */
 
 .face--back {
@@ -192,15 +266,15 @@ body::before {
   padding: 14px;
   border: 1px solid rgba(255, 255, 255, .1);
   background:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.022) 0 2px, transparent 2px 9px),
-    linear-gradient(160deg, #3a2f57 0%, #241c39 55%, #1a1428 100%);
+    repeating-linear-gradient(var(--pattern-angle), rgba(255,255,255,.022) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, var(--back-1) 0%, var(--back-2) 55%, var(--back-3) 100%);
   box-shadow:
     0 26px 60px rgba(0, 0, 0, .55),
     inset 0 1px 0 rgba(255, 255, 255, .08);
-  color: var(--gold);
+  color: var(--accent);
   font: inherit;
   cursor: pointer;
-  transition: filter 200ms ease;
+  transition: filter 200ms ease, background var(--tint), color var(--tint);
 }
 
 .face--back:active { filter: brightness(1.15); }
@@ -212,8 +286,9 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 22px;
-  border: 1px solid var(--gold-soft);
+  border: 1px solid var(--accent-soft);
   border-radius: calc(var(--radius) - 12px);
+  transition: border-color var(--tint);
 }
 
 .emblem svg {
@@ -226,7 +301,8 @@ body::before {
   font-size: 11.5px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(216, 178, 106, .7);
+  color: var(--accent);
+  opacity: .7;
   animation: breathe 2.8s ease-in-out infinite;
 }
 
@@ -239,18 +315,17 @@ body::before {
 
 .face--front {
   transform: rotateY(180deg);
-  padding: clamp(24px, 7vw, 34px);
+  padding: clamp(22px, 6.5vw, 32px);
   justify-content: space-between;
-  gap: 20px;
-  background:
-    radial-gradient(120% 80% at 50% 0%, #fffdf8 0%, var(--paper) 70%);
+  gap: 18px;
+  background: radial-gradient(120% 80% at 50% 0%, var(--paper-top) 0%, var(--paper) 70%);
   border: 1px solid var(--paper-edge);
   box-shadow: 0 26px 60px rgba(0, 0, 0, .55);
   color: var(--paper-ink);
   text-align: center;
 }
 
-.theme {
+.eyebrow {
   font-size: 11px;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -264,10 +339,13 @@ body::before {
   justify-content: center;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(21px, 5.6vw, 28px);
+  font-size: clamp(20px, 5.2vw, 27px);
   line-height: 1.34;
   text-wrap: balance;
 }
+
+/* Les questions longues respirent un peu moins */
+.question.is-long { font-size: clamp(17px, 4.4vw, 22px); line-height: 1.4; }
 
 .next-btn {
   flex-shrink: 0;
@@ -279,14 +357,13 @@ body::before {
   font-family: var(--font-ui);
   font-size: 15px;
   font-weight: 500;
-  letter-spacing: .01em;
   cursor: pointer;
   transition: transform 140ms ease, opacity 140ms ease;
 }
 
 .next-btn:active { transform: scale(.97); opacity: .9; }
 
-/* ---------- Fin du paquet ---------- */
+/* ---------- Paquet épuisé ---------- */
 
 .endscreen {
   position: absolute;
@@ -295,13 +372,11 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   text-align: center;
   padding: 24px;
   animation: rise 420ms cubic-bezier(.22, .9, .28, 1) both;
 }
-
-.endscreen[hidden] { display: none; }
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(14px); }
@@ -315,41 +390,110 @@ body::before {
 }
 
 .endscreen__text {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
+  max-width: 30ch;
   font-size: 14px;
+  line-height: 1.5;
   color: var(--ink-soft);
+}
+
+.endscreen__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 280px);
 }
 
 .ghost-btn {
   padding: 14px 26px;
-  border: 1px solid var(--gold-soft);
+  border: 1px solid var(--ink-faint);
   border-radius: 999px;
   background: transparent;
-  color: var(--gold);
+  color: var(--ink-soft);
   font-family: var(--font-ui);
   font-size: 14.5px;
-  letter-spacing: .02em;
   cursor: pointer;
-  transition: transform 140ms ease, background 200ms ease;
+  transition: transform 140ms ease, background 200ms ease, color 200ms ease;
 }
 
-.ghost-btn:active { transform: scale(.97); background: rgba(216, 178, 106, .1); }
+.ghost-btn--strong {
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.ghost-btn:active { transform: scale(.97); background: var(--accent-glow); }
 
 /* ---------- Barre du bas ---------- */
 
 .footbar {
-  text-align: center;
-  min-height: 18px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
 }
 
-.footbar p {
+.tagline {
   margin: 0;
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--ink-soft);
   transition: opacity 260ms ease;
 }
 
-.footbar p.is-dim { opacity: 0; }
+.tagline.is-dim { opacity: 0; }
+
+/* Sélecteur de mode : pilule coulissante */
+.modes {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 320px);
+  padding: 4px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .25);
+  transition: opacity 240ms ease;
+}
+
+.modes::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: .16;
+  box-shadow: inset 0 0 0 1px var(--accent-soft);
+  transform: translateX(calc(var(--i, 0) * 100%));
+  transition: transform 420ms cubic-bezier(.22, .9, .28, 1), background var(--tint);
+}
+
+.modes.is-locked {
+  opacity: .35;
+  pointer-events: none;
+}
+
+.mode-btn {
+  position: relative;
+  padding: 11px 8px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: color 260ms ease;
+}
+
+.mode-btn.is-on { color: var(--ink); }
+
+.mode-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* ---------- Accessibilité ---------- */
 
@@ -361,12 +505,10 @@ body::before {
   }
 }
 
-/* Écrans très courts (iPhone SE en paysage, etc.) */
-@media (max-height: 620px) {
-  .deck { width: min(58vh, 300px); }
-  .question { font-size: clamp(18px, 4.4vh, 24px); }
+/* Écrans vraiment courts : paysage, petits modèles. La carte se borne
+   déjà toute seule ; ici on ne retire que ce qui est superflu. */
+@media (max-height: 560px) {
+  .tagline { display: none; }
+  .question { font-size: clamp(16px, 4.2vh, 22px); }
+  .face--front { padding: clamp(16px, 4vh, 26px); }
 }
-
-/* La face cachée ne doit jamais intercepter les taps */
-.card.is-flipped .face--back { pointer-events: none; }
-.card:not(.is-flipped) .face--front { pointer-events: none; }

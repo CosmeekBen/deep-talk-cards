@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-mode="deep">
 <head>
 <meta charset="utf-8">
 <title>Deep Talk — Cartes à questions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="description" content="Une pile de cartes à piocher pour lancer de vraies conversations.">
-<meta name="theme-color" content="#14101f">
+<meta name="description" content="Une pile de cartes à piocher pour lancer de vraies conversations. Deux modes : Deep Talk et Crousti.">
+<meta name="theme-color" content="#100c1a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,10 +21,15 @@
   <header class="topbar">
     <div class="brand">
       <span class="brand__mark" aria-hidden="true"></span>
-      <span class="brand__name">Deep&nbsp;Talk</span>
+      <span class="brand__name" id="brandName">Deep&nbsp;Talk</span>
     </div>
-    <p class="counter" id="counter" aria-live="polite">— cartes</p>
+    <p class="counter" id="counter" aria-live="polite">—</p>
   </header>
+
+  <!-- Avancement du paquet en cours -->
+  <div class="progress" id="progress" role="img" aria-label="Progression du paquet">
+    <span class="progress__fill" id="progressFill"></span>
+  </div>
 
   <main class="stage">
 
@@ -52,28 +57,33 @@
 
           <!-- Face avant : la question -->
           <div class="face face--front" id="front">
-            <span class="theme" id="theme"></span>
+            <span class="eyebrow" id="eyebrow"></span>
             <p class="question" id="question"></p>
-            <button class="next-btn" id="nextBtn" type="button">
-              Carte suivante
-            </button>
+            <button class="next-btn" id="nextBtn" type="button">Carte suivante</button>
           </div>
 
         </div>
       </div>
     </div>
 
-    <!-- Fin du paquet -->
+    <!-- Paquet épuisé -->
     <div class="endscreen" id="endscreen" hidden>
       <p class="endscreen__title">Vous avez fait le tour.</p>
-      <p class="endscreen__text">Toutes les cartes ont été piochées.</p>
-      <button class="ghost-btn" id="restartBtn" type="button">Remélanger le paquet</button>
+      <p class="endscreen__text" id="endText"></p>
+      <div class="endscreen__actions">
+        <button class="ghost-btn ghost-btn--strong" id="swapBtn" type="button" hidden></button>
+        <button class="ghost-btn" id="restartBtn" type="button">Remélanger le paquet</button>
+      </div>
     </div>
 
   </main>
 
   <footer class="footbar">
-    <p id="footHint">Une question à la fois. Prenez le temps.</p>
+    <p class="tagline" id="tagline"></p>
+    <div class="modes" id="modes" role="tablist" aria-label="Mode de jeu">
+      <button class="mode-btn is-on" type="button" role="tab" data-mode="deep" aria-selected="true">Deep Talk</button>
+      <button class="mode-btn" type="button" role="tab" data-mode="crousti" aria-selected="false">Crousti</button>
+    </div>
   </footer>
 
 </div>

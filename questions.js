@@ -1,64 +1,76 @@
 /* ============================================================
-   Deep Talk — le paquet de questions
+   Deep Talk — les paquets de questions
    ------------------------------------------------------------
-   Jeu de départ, à remplacer par la vraie liste.
-   Deux écritures possibles, mélangeables librement :
+   Un paquet par mode. Pour ajouter une question, il suffit
+   d'ajouter une ligne dans le tableau du bon paquet.
+
+   Deux écritures possibles, mélangeables :
 
      "Une question toute simple."
-     { theme: "Souvenirs", text: "Une question avec un thème." }
+     { theme: "Argent", text: "Une question avec son propre libellé." }
 
-   L'ordre n'a pas d'importance : le paquet est mélangé
-   à chaque chargement de la page.
+   Sans « theme », la carte affiche le nom du mode.
+   L'ordre n'a pas d'importance : chaque paquet est mélangé
+   au chargement de la page.
+
+   Les espaces fines avant ? ! : ; sont ajoutées automatiquement
+   à l'affichage — inutile de s'en occuper ici.
    ============================================================ */
 
-window.DEEP_TALK_QUESTIONS = [
+window.DEEP_TALK_DECKS = {
 
-  /* --- Souvenirs --- */
-  { theme: "Souvenirs", text: "Quel est le premier souvenir dont tu es certain qu'il est vraiment le tien ?" },
-  { theme: "Souvenirs", text: "Quelle odeur te ramène immédiatement quelque part ?" },
-  { theme: "Souvenirs", text: "Quel a été le plus beau moment de ton année, et pourquoi celui-là ?" },
-  { theme: "Souvenirs", text: "Y a-t-il une année de ta vie que tu revivrais volontiers à l'identique ?" },
-  { theme: "Souvenirs", text: "Quelle phrase, dite par quelqu'un, t'est restée pour toujours ?" },
-  { theme: "Souvenirs", text: "Quel objet gardes-tu sans pouvoir t'en séparer ?" },
+  deep: {
+    label: "Deep Talk",
+    tagline: "Pour aller là où on ne va pas d'habitude.",
+    questions: [
+      "Avec qui te sens-tu 100 % toi-même (ou presque) ?",
+      "Quelle est ta dernière fierté ?",
+      "Quelle est ta priorité actuelle ?",
+      "De quoi as-tu honte aujourd'hui ?",
+      "Qu'est-ce que tu ne comprends toujours pas à ce jour ?",
+      "Dans les participants actuels que tu ne connais pas, avec qui as-tu eu un fit particulier ?",
+      "Quel comportement chez toi tu sais être un red flag ?",
+      "À quel moment de ta vie t'es-tu senti le plus perdu ?",
+      "Quelle version passée de toi aurait le plus de mal à reconnaître qui tu es aujourd'hui ?",
+      "Quand est-ce que tu te sens le plus seul ?",
+      "Tu préfères être quitté ou devoir quitter quelqu'un ?",
+      "Si tu devais avoir une conversation de 4 h en tête-à-tête avec une personne présente, qui choisirais-tu ?",
+      "De qui attends-tu encore inconsciemment une validation ?",
+      "Si ta vie reste exactement comme aujourd'hui pendant 5 ans, est-ce que ça te va ?",
+      "Est-ce qu'embrasser quelqu'un peut être plus intime que coucher avec ?",
+      "Est-ce que tu préférerais savoir que ton partenaire fantasme sur quelqu'un que vous connaissez, ou ne jamais le savoir ?",
+      "Quelle relation es-tu content d'avoir terminée ?",
+      "Est-ce que tu crois à l'amitié homme-femme ?",
+      "Que penses-tu du polyamour ?",
+      "Crois-tu à l'amour d'une vie ?",
+      "Est-ce que sucer c'est tromper ?",
+      "Oui ou non : s'associer à un ami ou à un membre de sa famille ?",
+      "Si un membre de ta famille est « nocif » pour toi, tu romps la relation, ou le lien du sang passe avant tout et tu la préserves coûte que coûte ?",
+      "Est-ce que tu te sens compris par ton entourage ?",
+      "Quelle est ta mesure du succès ?",
+      "Quelle est ta définition de la réussite ?",
+      "Quelle décision penses-tu avoir prise trop tard ?",
+      "Quelle est pour toi la différence entre le lien amical et le lien amoureux ?",
+      "De quoi tu as besoin pour te sentir en sécurité financière ?",
+      "Quelle dépense regrettes-tu ?",
+      "Si demain tu gagnes 100 M, est-ce que tu continues ce que tu fais aujourd'hui ? Et sinon, que changerais-tu ?",
+      "Est-ce que tu attends de ton partenaire de vie que ce soit ton meilleur ami ?"
+    ]
+  },
 
-  /* --- Liens --- */
-  { theme: "Liens", text: "Qu'est-ce que tu attends de quelqu'un avant de lui faire confiance ?" },
-  { theme: "Liens", text: "Qui, dans ta vie, mériterait un message que tu n'as jamais envoyé ?" },
-  { theme: "Liens", text: "À quoi reconnais-tu que tu te sens vraiment à l'aise avec quelqu'un ?" },
-  { theme: "Liens", text: "Qu'est-ce qui te fait le plus peur dans le fait d'être connu en profondeur ?" },
-  { theme: "Liens", text: "Quelle est la chose la plus généreuse qu'on ait faite pour toi ?" },
-  { theme: "Liens", text: "Y a-t-il une relation que tu aimerais réparer ? Qu'est-ce qui t'en empêche ?" },
-  { theme: "Liens", text: "Comment sais-tu que tu aimes quelqu'un ?" },
+  crousti: {
+    label: "Crousti",
+    tagline: "Là, on ne fait plus semblant.",
+    questions: [
+      "Ta pire expérience flirt ou dating ?",
+      "Pour ou contre continuer les plaisirs solitaires quand tu es en couple ?",
+      "Si tu étais célibataire, avec qui pourrais-tu coucher ici ?",
+      "Pour ou contre l'ouverture du couple ?",
+      "L'endroit le plus insolite où tu as ken ?",
+      "Plutôt vanille ou… piment ?",
+      "Pour ou contre les jeux de rôles ?",
+      "Quelle importance donnes-tu à la fréquence dans une relation ?"
+    ]
+  }
 
-  /* --- Soi --- */
-  { theme: "Soi", text: "Quelle version de toi as-tu laissée derrière toi sans regret ?" },
-  { theme: "Soi", text: "Sur quoi as-tu changé d'avis ces dernières années ?" },
-  { theme: "Soi", text: "Qu'est-ce que tu fais uniquement pour toi, sans le dire à personne ?" },
-  { theme: "Soi", text: "De quoi es-tu fier alors que personne ne le remarque ?" },
-  { theme: "Soi", text: "Quel compliment as-tu du mal à recevoir ?" },
-  { theme: "Soi", text: "Qu'est-ce que tu fuis en t'occupant ?" },
-  { theme: "Soi", text: "Quelle part de toi montres-tu rarement ?" },
-
-  /* --- Rêves --- */
-  { theme: "Rêves", text: "Que ferais-tu de tes journées si l'argent n'entrait plus en jeu ?" },
-  { theme: "Rêves", text: "Qu'est-ce que tu remets à plus tard depuis trop longtemps ?" },
-  { theme: "Rêves", text: "Où aimerais-tu te réveiller dans cinq ans, précisément ?" },
-  { theme: "Rêves", text: "Quel projet abandonnerais-tu tout pour tenter, si tu étais sûr de réussir ?" },
-  { theme: "Rêves", text: "Quelle vie aurais-tu eue si tu avais dit oui, cette fois-là ?" },
-
-  /* --- Valeurs --- */
-  { theme: "Valeurs", text: "Qu'est-ce qui, pour toi, rend une journée réussie ?" },
-  { theme: "Valeurs", text: "Sur quoi refuserais-tu de transiger, même sous pression ?" },
-  { theme: "Valeurs", text: "Qu'est-ce que tu aimerais qu'on dise de toi quand tu n'es pas là ?" },
-  { theme: "Valeurs", text: "Y a-t-il quelque chose que tu penses tout bas et que tu n'oses pas dire tout haut ?" },
-  { theme: "Valeurs", text: "Le pardon : jusqu'où va le tien ?" },
-  { theme: "Valeurs", text: "Qu'est-ce que tu voudrais transmettre, et à qui ?" },
-
-  /* --- Léger --- */
-  { theme: "Léger", text: "Quel est ton plaisir coupable le plus assumé ?" },
-  { theme: "Léger", text: "Quelle petite chose de la journée te met de bonne humeur à tous les coups ?" },
-  { theme: "Léger", text: "Quel talent complètement inutile possèdes-tu ?" },
-  { theme: "Léger", text: "Si on te donnait un micro pendant trente secondes devant tout le monde, tu dirais quoi ?" },
-  { theme: "Léger", text: "Quelle est la dernière chose qui t'a fait rire aux éclats ?" }
-
-];
+};
