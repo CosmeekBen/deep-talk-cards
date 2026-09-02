@@ -1,8 +1,9 @@
 # Deep Talk — cartes à questions
 
 Un paquet de cartes face cachée, pensé pour le mobile. On touche la pile, la
-première carte se retourne, on lit la question, on écarte la carte, et on
-repioche. Une carte tirée ne revient pas tant que la page n'est pas rechargée.
+première carte se retourne, on lit la question, on écarte la carte — au doigt
+sur le côté ou par le bouton — et on repioche. Une carte tirée ne revient pas
+tant que la page n'est pas rechargée.
 
 Deux modes, chacun avec son paquet et son propre avancement : **Deep Talk** et
 **Crousti**. On bascule de l'un à l'autre en cours de partie sans rien perdre —
@@ -79,6 +80,14 @@ L'avancement se lit à trois endroits : le compteur `restantes / total`, la barr
 sous l'en-tête, et l'épaisseur de la pile. Le sélecteur de mode est verrouillé
 tant qu'une carte est retournée — on ne change pas de paquet au milieu d'une
 question.
+
+Le balayage fait suivre la carte au doigt, avec une rotation et un léger
+estompage. Elle part de son côté si le geste dépasse 26 % de la largeur de la
+carte ou s'il est bref mais vif (0,55 px/ms) ; en dessous, elle revient se
+poser. Le geste n'est attrapé qu'une fois franchement horizontal, pour qu'un
+mouvement vertical ne ferme pas une carte par accident, et le bouton garde son
+clic. Position du doigt et états de la carte se composent par variables CSS
+(`--dx`, `--dr`, `--fade`, `--out-*`) au lieu de se battre dans la cascade.
 
 La constellation de chaque carte vient d'un hachage FNV-1a de son texte, qui
 alimente un tirage déterministe : de 2 à 5 sommets pris sur un cercle de 16

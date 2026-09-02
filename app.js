@@ -12,6 +12,10 @@
   var LEAVE_MS = 430;
   /* Au-delà, la question passe en petit corps pour tenir sur la carte */
   var LONG_QUESTION = 95;
+  /* Balayage : à partir de quel déplacement, ou de quelle vitesse, la carte part */
+  var SWIPE_PART = 0.26;   /* fraction de la largeur de carte */
+  var SWIPE_FLICK = 0.55;  /* px/ms, pour un geste bref mais franc */
+  var SWIPE_PRISE = 8;     /* px avant de considérer que c'est un balayage */
 
   var root       = document.documentElement;
   var deckEl     = document.getElementById('deck');
@@ -40,6 +44,8 @@
   var decks = {};     // { clé: { label, tagline, pool, total } }
   var mode  = null;   // mode affiché
   var state = 'idle'; // idle | revealed | animating | empty
+  var geste = null;   // balayage en cours
+  var tirages = 0;    // pour ne montrer l'astuce qu'à la première carte
 
   /* ---------- Données ---------- */
 
@@ -134,7 +140,6 @@
     var d = deck();
 
     brandEl.textContent = d.label;
-    taglineEl.textContent = d.tagline;
     counterEl.textContent = d.pool.length + ' / ' + d.total;
     progressEl.setAttribute('aria-label',
       (d.total - d.pool.length) + ' cartes sur ' + d.total + ' déjà piochées');
@@ -190,13 +195,29 @@
     drawBtn.tabIndex = -1;
     lockModes(true);
 
+    tirages++;
+    if (tirages === 1) setTagline('Balayez la carte sur le côté, ou touchez le bouton.');
+
     render();
     buzz(12);
   }
 
-  function close() {
+  /* sens : -1 balayée à gauche, 1 à droite, 0 fermée par le bouton (sortie par le haut) */
+  function close(sens) {
     if (state !== 'revealed') return;
     state = 'animating';
+
+    if (sens) {
+      cardWrap.style.setProperty('--out-x', (sens * 135) + '%');
+      cardWrap.style.setProperty('--out-y', '-4%');
+      cardWrap.style.setProperty('--out-r', (sens * 16) + 'deg');
+    } else {
+      cardWrap.style.removeProperty('--out-x');
+      cardWrap.style.removeProperty('--out-y');
+      cardWrap.style.removeProperty('--out-r');
+    }
+
+    cardWrap.classList.remove('is-dragging');
     cardWrap.classList.add('is-leaving');
     buzz(8);
 
@@ -205,6 +226,7 @@
       cardWrap.classList.add('no-anim');
       cardWrap.classList.remove('is-leaving', 'is-active');
       card.classList.remove('is-flipped');
+      poserCarte();
       void cardWrap.offsetWidth; // force le reflow
       cardWrap.classList.remove('no-anim');
 
@@ -212,6 +234,7 @@
       drawBtn.tabIndex = 0;
       lockModes(false);
 
+      if (tirages === 1) setTagline(deck().tagline);
       if (!deck().pool.length) showEnd();
       else state = 'idle';
     }, LEAVE_MS);
@@ -238,8 +261,9 @@
 
   function resetCard() {
     cardWrap.classList.add('no-anim');
-    cardWrap.classList.remove('is-leaving', 'is-active');
+    cardWrap.classList.remove('is-leaving', 'is-active', 'is-dragging');
     card.classList.remove('is-flipped');
+    poserCarte();
     void cardWrap.offsetWidth;
     cardWrap.classList.remove('no-anim');
     drawBtn.removeAttribute('aria-hidden');
@@ -259,6 +283,7 @@
       state = 'idle';
       render();
       if (announce) setTagline(deck().tagline);
+      else taglineEl.textContent = deck().tagline;
     } else {
       showEnd();
     }
@@ -302,10 +327,70 @@
     setMode(order[0], false);
   }
 
+  /* ---------- Balayage ----------
+     La carte suit le doigt, puis part de son côté si le geste est assez
+     ample ou assez vif. En dessous, elle revient se poser. Le bouton reste
+     le chemin visible ; le balayage est le raccourci. */
+
+  function poserCarte() {
+    cardWrap.style.setProperty('--dx', '0px');
+    cardWrap.style.setProperty('--dr', '0deg');
+    cardWrap.style.setProperty('--fade', '1');
+  }
+
+  function suivreDoigt(dx, largeur) {
+    cardWrap.style.setProperty('--dx', Math.round(dx) + 'px');
+    cardWrap.style.setProperty('--dr', ((dx / largeur) * 11).toFixed(2) + 'deg');
+    cardWrap.style.setProperty('--fade', (1 - Math.min(Math.abs(dx) / largeur, 1) * 0.35).toFixed(3));
+  }
+
+  cardWrap.addEventListener('pointerdown', function (e) {
+    if (state !== 'revealed' || geste) return;
+    if (e.target.closest && e.target.closest('.next-btn')) return; // le bouton garde son clic
+    geste = { id: e.pointerId, x0: e.clientX, y0: e.clientY, dx: 0, t0: Date.now(), pris: false };
+  });
+
+  cardWrap.addEventListener('pointermove', function (e) {
+    if (!geste || e.pointerId !== geste.id) return;
+    var dx = e.clientX - geste.x0;
+    var dy = e.clientY - geste.y0;
+
+    if (!geste.pris) {
+      // on n'attrape le geste qu'une fois qu'il est franchement horizontal
+      if (Math.abs(dx) < SWIPE_PRISE || Math.abs(dx) < Math.abs(dy)) return;
+      geste.pris = true;
+      cardWrap.classList.add('is-dragging');
+      try { cardWrap.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+
+    geste.dx = dx;
+    suivreDoigt(dx, cardWrap.offsetWidth || 1);
+  });
+
+  function relacher(e) {
+    if (!geste || (e && e.pointerId !== geste.id)) return;
+    var pris = geste.pris, dx = geste.dx, duree = Date.now() - geste.t0;
+    geste = null;
+    cardWrap.classList.remove('is-dragging');
+    if (!pris) return;
+
+    var largeur = cardWrap.offsetWidth || 1;
+    var vitesse = Math.abs(dx) / Math.max(duree, 1);
+
+    if (Math.abs(dx) > largeur * SWIPE_PART || vitesse > SWIPE_FLICK) {
+      close(dx < 0 ? -1 : 1);
+    } else {
+      poserCarte(); // pas assez : la carte se repose
+    }
+  }
+
+  cardWrap.addEventListener('pointerup', relacher);
+  cardWrap.addEventListener('pointercancel', relacher);
+
   /* ---------- Branchements ---------- */
 
   drawBtn.addEventListener('click', draw);
-  nextBtn.addEventListener('click', close);
+  nextBtn.addEventListener('click', function () { close(0); });
   restartBtn.addEventListener('click', reshuffle);
   swapBtn.addEventListener('click', function () { setMode(otherKey(), true); });
 

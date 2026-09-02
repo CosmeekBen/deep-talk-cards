@@ -214,15 +214,31 @@ body::before {
 
 /* ---------- La carte ---------- */
 
+/* --dx / --dr / --fade suivent le doigt pendant un balayage ;
+   --out-* décident par où la carte sort. Tout passe par des variables
+   pour que la position du doigt et les états de la carte se composent
+   au lieu de se battre dans la cascade. */
 .card-wrap {
   position: absolute;
   inset: 0;
+  transform: translateX(var(--dx, 0px)) rotate(var(--dr, 0deg));
+  opacity: var(--fade, 1);
   transition: transform var(--lift), opacity var(--lift);
   will-change: transform;
+  touch-action: none; /* le balayage nous appartient, pas au navigateur */
 }
 
-.card-wrap.is-active   { transform: translateY(-1.5%) scale(1.02); }
-.card-wrap.is-leaving  { transform: translateY(-118%) rotate(-6deg) scale(.9); opacity: 0; }
+.card-wrap.is-active {
+  transform: translateX(var(--dx, 0px)) translateY(-1.5%) rotate(var(--dr, 0deg)) scale(1.02);
+}
+
+.card-wrap.is-dragging { transition: none; }
+
+.card-wrap.is-leaving {
+  transform: translate(var(--out-x, 0%), var(--out-y, -118%)) rotate(var(--out-r, -6deg)) scale(.9);
+  opacity: 0;
+}
+
 .card-wrap.no-anim,
 .card-wrap.no-anim .card { transition: none !important; }
 
