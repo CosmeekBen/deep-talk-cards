@@ -1,5 +1,5 @@
 /* ============================================================
-   Deep Talk — logique des paquets
+   Yappy Cards — logique des paquets
    Deux modes, deux piles indépendantes. On pioche, on lit,
    on écarte. Une carte tirée ne revient pas avant un
    rechargement de la page (ou un remélange explicite).
@@ -29,7 +29,6 @@
   var counterEl  = document.getElementById('counter');
   var fillEl     = document.getElementById('progressFill');
   var progressEl = document.getElementById('progress');
-  var brandEl    = document.getElementById('brandName');
   var taglineEl  = document.getElementById('tagline');
   var endscreen  = document.getElementById('endscreen');
   var endTextEl  = document.getElementById('endText');
@@ -139,7 +138,6 @@
   function render() {
     var d = deck();
 
-    brandEl.textContent = d.label;
     counterEl.textContent = d.pool.length + ' / ' + d.total;
     progressEl.setAttribute('aria-label',
       (d.total - d.pool.length) + ' cartes sur ' + d.total + ' déjà piochées');
@@ -307,7 +305,7 @@
   /* ---------- Démarrage ---------- */
 
   function start() {
-    var source = window.DEEP_TALK_DECKS || {};
+    var source = window.YAPPY_DECKS || {};
 
     order = modeBtns.map(function (btn) { return btn.dataset.mode; })
                     .filter(function (key) { return source[key]; });

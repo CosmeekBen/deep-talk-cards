@@ -1,5 +1,5 @@
 /* ============================================================
-   Deep Talk — les paquets de questions
+   Yappy Cards — les paquets de questions
    ------------------------------------------------------------
    Un paquet par mode. Pour ajouter une question, il suffit
    d'ajouter une ligne dans le tableau du bon paquet.
@@ -9,7 +9,7 @@
      "Une question toute simple."
      { theme: "Argent", text: "Une question avec son propre libellé." }
 
-   Sans « theme », la carte affiche le nom du mode.
+   Sans « theme », la carte affiche le nom de la catégorie.
    L'ordre n'a pas d'importance pour le jeu : chaque paquet est
    mélangé au chargement de la page. Il est tenu mélangé ici pour
    qu'on puisse relire le paquet sans lire dix questions d'affilée
@@ -19,10 +19,10 @@
    à l'affichage — inutile de s'en occuper ici.
    ============================================================ */
 
-window.DEEP_TALK_DECKS = {
+window.YAPPY_DECKS = {
 
   deep: {
-    label: "Deep Talk",
+    label: "Deep",
     tagline: "Pour aller là où on ne va pas d'habitude.",
     questions: [
       "Avec qui te sens-tu 100 % toi-même (ou presque) ?",

@@ -1,14 +1,14 @@
 /* ============================================================
-   Deep Talk — feuille de style
+   Yappy Cards — feuille de style
    ------------------------------------------------------------
-   Un seul monde : le noir. Les deux modes ne diffèrent que par
-   leur accent — ivoire pour Deep Talk, rouge pour Crousti —
+   Un seul monde : le noir. Les deux catégories ne diffèrent que
+   par leur accent — ivoire pour Deep, rouge pour Crousti —
    piloté par [data-mode] sur <html>.
    Mobile d'abord : plein écran, pas de scroll, safe-areas.
    ============================================================ */
 
 :root {
-  /* --- Deep Talk : noir graphite, accent ivoire (achromatique) --- */
+  /* --- Deep : noir graphite, accent ivoire (achromatique) --- */
   --ground:      #08090b;
   --ground-lift: #101218;   /* halo très bas derrière le paquet */
   --surface:     #101216;   /* face question, surface soulevée */
