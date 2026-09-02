@@ -1,0 +1,372 @@
+/* ============================================================
+   Deep Talk — feuille de style
+   Pensée mobile d'abord : plein écran, pas de scroll, safe-areas.
+   ============================================================ */
+
+:root {
+  --bg-deep:      #100c1a;
+  --bg-glow:      #2a1f45;
+  --ink:          #f4efe6;
+  --ink-soft:     rgba(244, 239, 230, .55);
+  --gold:         #d8b26a;
+  --gold-soft:    rgba(216, 178, 106, .35);
+
+  --paper:        #f7f2e8;
+  --paper-edge:   #e6dcc9;
+  --paper-ink:    #221c2e;
+  --paper-ink-soft: #6b6076;
+
+  --radius:       26px;
+  --flip:         720ms cubic-bezier(.22, .9, .28, 1);
+  --lift:         420ms cubic-bezier(.22, .9, .28, 1);
+
+  --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+/* Halo d'ambiance derrière le paquet */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% 22%, var(--bg-glow) 0%, transparent 62%),
+    radial-gradient(80% 50% at 50% 100%, rgba(216,178,106,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ---------- Structure plein écran ---------- */
+
+.app {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  height: 100dvh;
+  padding:
+    calc(env(safe-area-inset-top) + 14px)
+    calc(env(safe-area-inset-right) + 18px)
+    calc(env(safe-area-inset-bottom) + 14px)
+    calc(env(safe-area-inset-left) + 18px);
+}
+
+/* ---------- Barre du haut ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.brand__mark {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px var(--gold-soft);
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: .04em;
+}
+
+.counter {
+  margin: 0;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Scène centrale ---------- */
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  perspective: 1600px;
+}
+
+.deck {
+  position: relative;
+  width: min(82vw, 340px);
+  aspect-ratio: 5 / 7.6;
+  max-height: 100%;
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.deck.is-gone {
+  opacity: 0;
+  transform: scale(.94);
+  pointer-events: none;
+}
+
+/* Épaisseur du paquet : couches décalées derrière la carte active */
+.deck__layer {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, #2c2440, #1b1529);
+  border: 1px solid rgba(255, 255, 255, .07);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+  transition: transform var(--lift), opacity var(--lift);
+  transform-origin: 50% 90%;
+}
+
+.deck__layer[data-layer="1"] { transform: translateY(6px)  scale(.978) rotate(-1.1deg); }
+.deck__layer[data-layer="2"] { transform: translateY(12px) scale(.956) rotate(1.6deg); }
+.deck__layer[data-layer="3"] { transform: translateY(18px) scale(.934) rotate(-2.2deg); }
+
+.deck__layer.is-hidden { opacity: 0; transform: translateY(0) scale(.9); }
+
+/* ---------- La carte ---------- */
+
+.card-wrap {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--lift), opacity var(--lift);
+  will-change: transform;
+}
+
+.card-wrap.is-active   { transform: translateY(-1.5%) scale(1.02); }
+.card-wrap.is-leaving  { transform: translateY(-118%) rotate(-7deg) scale(.9); opacity: 0; }
+.card-wrap.no-anim,
+.card-wrap.no-anim .card { transition: none !important; }
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--flip);
+}
+
+.card.is-flipped { transform: rotateY(180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Dos de carte --- */
+
+.face--back {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.022) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, #3a2f57 0%, #241c39 55%, #1a1428 100%);
+  box-shadow:
+    0 26px 60px rgba(0, 0, 0, .55),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
+  color: var(--gold);
+  font: inherit;
+  cursor: pointer;
+  transition: filter 200ms ease;
+}
+
+.face--back:active { filter: brightness(1.15); }
+
+.face__frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  border: 1px solid var(--gold-soft);
+  border-radius: calc(var(--radius) - 12px);
+}
+
+.emblem svg {
+  width: clamp(64px, 20vw, 88px);
+  height: auto;
+  opacity: .85;
+}
+
+.face__hint {
+  font-size: 11.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(216, 178, 106, .7);
+  animation: breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: .45; }
+  50%      { opacity: 1; }
+}
+
+/* --- Face question --- */
+
+.face--front {
+  transform: rotateY(180deg);
+  padding: clamp(24px, 7vw, 34px);
+  justify-content: space-between;
+  gap: 20px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #fffdf8 0%, var(--paper) 70%);
+  border: 1px solid var(--paper-edge);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, .55);
+  color: var(--paper-ink);
+  text-align: center;
+}
+
+.theme {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--paper-ink-soft);
+}
+
+.question {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(21px, 5.6vw, 28px);
+  line-height: 1.34;
+  text-wrap: balance;
+}
+
+.next-btn {
+  flex-shrink: 0;
+  padding: 15px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--paper-ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.next-btn:active { transform: scale(.97); opacity: .9; }
+
+/* ---------- Fin du paquet ---------- */
+
+.endscreen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 24px;
+  animation: rise 420ms cubic-bezier(.22, .9, .28, 1) both;
+}
+
+.endscreen[hidden] { display: none; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.endscreen__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(23px, 6.5vw, 30px);
+}
+
+.endscreen__text {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.ghost-btn {
+  padding: 14px 26px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-ui);
+  font-size: 14.5px;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: transform 140ms ease, background 200ms ease;
+}
+
+.ghost-btn:active { transform: scale(.97); background: rgba(216, 178, 106, .1); }
+
+/* ---------- Barre du bas ---------- */
+
+.footbar {
+  text-align: center;
+  min-height: 18px;
+}
+
+.footbar p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-soft);
+  transition: opacity 260ms ease;
+}
+
+.footbar p.is-dim { opacity: 0; }
+
+/* ---------- Accessibilité ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Écrans très courts (iPhone SE en paysage, etc.) */
+@media (max-height: 620px) {
+  .deck { width: min(58vh, 300px); }
+  .question { font-size: clamp(18px, 4.4vh, 24px); }
+}
+
+/* La face cachée ne doit jamais intercepter les taps */
+.card.is-flipped .face--back { pointer-events: none; }
+.card:not(.is-flipped) .face--front { pointer-events: none; }
