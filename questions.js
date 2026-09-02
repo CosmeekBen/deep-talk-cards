@@ -82,6 +82,7 @@ window.YAPPY_DECKS = {
       "Plutôt vanille ou… piment ?",
       "Tu préfères tromper une fois sans jamais être découvert, ou être trompé une fois sans jamais le savoir ?",
       "Pour ou contre l'ouverture du couple ?",
+      "Tu as déjà envoyé un nude que tu regrettes ?",
       "Quelle importance donnes-tu à la fréquence dans une relation ?",
       "Est-ce que le bodycount de quelqu'un peut changer le regard que tu portes sur lui ou elle ? Si oui, à partir de quand ?",
       "Pour ou contre continuer les plaisirs solitaires quand tu es en couple ?",
