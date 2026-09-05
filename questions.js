@@ -48,6 +48,7 @@ window.YAPPY_DECKS = {
       "Quelle est ta définition de la réussite ?",
       "Quel choix de vie as-tu fait principalement pour faire plaisir aux autres ?",
       "Quelle relation es-tu content d'avoir terminée ?",
+      "Tu préfères qu'on ait accès à ton historique IA ou à ton historique porno ?",
       "Si demain tu gagnes 100 M, est-ce que tu continues ce que tu fais aujourd'hui ? Et sinon, que changerais-tu ?",
       "Une omission volontaire, c'est un mensonge ?",
       "Si tu devais avoir une conversation de 4 h en tête-à-tête avec une personne présente, qui choisirais-tu ?",
