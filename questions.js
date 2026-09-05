@@ -50,6 +50,7 @@ window.YAPPY_DECKS = {
       "Une omission volontaire, c'est un mensonge ?",
       "Si tu devais avoir une conversation de 4 h en tête-à-tête avec une personne présente, qui choisirais-tu ?",
       "Qu'est-ce que tu ne comprends toujours pas à ce jour ?",
+      "Quelles identités portes-tu encore sans réussir à t'en détacher ? Une identité, pas une casquette qu'on enlève.",
       "Est-ce que tu pourrais être avec quelqu'un qui gagne énormément moins que toi ? Et énormément plus ?",
       "Si un membre de ta famille est « nocif » pour toi, tu romps la relation, ou le lien du sang passe avant tout et tu la préserves coûte que coûte ?",
       "Crois-tu à l'amour d'une vie ?",
