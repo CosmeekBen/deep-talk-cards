@@ -87,6 +87,7 @@ window.YAPPY_DECKS = {
       "Est-ce que le bodycount de quelqu'un peut changer le regard que tu portes sur lui ou elle ? Si oui, à partir de quand ?",
       "Pour ou contre continuer les plaisirs solitaires quand tu es en couple ?",
       "L'endroit le plus insolite où tu as ken ?",
+      "Sur un curseur de 1 à 10, 1 étant « homo » et 10 « hétéro », comment situerais-tu ton orientation sexuelle ?",
       "Est-ce que tu as déjà flirté avec quelqu'un uniquement pour l'ego ?",
       "Pour ou contre les jeux de rôles ?",
       "Avec combien de personnes présentes ici tu pourrais coucher ?"
