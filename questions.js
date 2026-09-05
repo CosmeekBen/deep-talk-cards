@@ -33,7 +33,7 @@ window.YAPPY_DECKS = {
       "Est-ce que tu préférerais connaître ton futur ou pouvoir changer ton passé ?",
       "Que penses-tu du polyamour ?",
       "Quelle est ta dernière fierté ?",
-      "Qu'est-ce que tu veux que les gens disent de toi quand t'es pas dans la pièce ?",
+      "Qu'est-ce que tu veux que tes proches disent de toi quand tu n'es pas là ?",
       "Est-ce qu'il y a quelqu'un à qui tu dois encore des excuses ?",
       "De quoi tu as besoin pour te sentir en sécurité financière ?",
       "Quelle version passée de toi aurait le plus de mal à reconnaître qui tu es aujourd'hui ?",
