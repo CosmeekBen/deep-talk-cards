@@ -85,6 +85,7 @@ window.YAPPY_DECKS = {
     questions: [
       "Ta pire expérience flirt ou dating ?",
       "Est-ce que tu pourrais regarder ton ou ta partenaire coucher avec quelqu'un d'autre ?",
+      "Le plus grand écart d'âge que tu as eu au lit ?",
       "Plutôt vanille ou… piment ?",
       "Tu préfères tromper une fois sans jamais être découvert, ou être trompé une fois sans jamais le savoir ?",
       "Pour ou contre l'ouverture du couple ?",
