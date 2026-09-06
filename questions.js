@@ -1,7 +1,7 @@
 /* ============================================================
    Yappy Cards — les paquets de questions
    ------------------------------------------------------------
-   Un paquet par mode. Pour ajouter une question, il suffit
+   Un paquet par catégorie. Pour ajouter une question, il suffit
    d'ajouter une ligne dans le tableau du bon paquet.
 
    Deux écritures possibles, mélangeables :
@@ -20,6 +20,22 @@
    ============================================================ */
 
 window.YAPPY_DECKS = {
+
+  warmup: {
+    label: "Warm up",
+    tagline: "On commence par le commencement.",
+    questions: [
+      "Quelle petite chose suffit presque toujours à te mettre de bonne humeur ?",
+      "Quelle histoire te concernant tes proches adorent raconter ?",
+      "Sur quoi es-tu étonnamment difficile ?",
+      "Quel moment récent t'a fait penser : « putain, j'aime bien ma vie » ?",
+      "Quelle habitude chez toi ferait rire quelqu'un qui vivrait avec toi ?",
+      "Sur quoi as-tu changé d'avis récemment ?",
+      "Quel est ton petit kiff du moment ?",
+      "Quelle première impression les gens ont souvent de toi et qui est fausse ?",
+      "Si tu pouvais enlever une seule contrainte de ta vie actuelle, laquelle ?"
+    ]
+  },
 
   deep: {
     label: "Deep",

@@ -5,13 +5,14 @@ première carte se retourne, on lit la question, on écarte la carte — au doig
 sur le côté ou par le bouton — et on repioche. Une carte tirée ne revient pas
 tant que la page n'est pas rechargée.
 
-Deux catégories, chacune avec son paquet et son propre avancement : **Deep** et
-**Crousti**. On bascule de l'une à l'autre en cours de partie sans rien perdre —
-chaque pile garde les cartes qui lui restent.
+Trois catégories, chacune avec son paquet et son propre avancement : **Warm up**
+pour ouvrir, **Deep** pour creuser, **Crousti** pour ne plus faire semblant. Le
+jeu démarre sur Warm up ; on bascule d'une catégorie à l'autre en cours de
+partie sans rien perdre — chaque pile garde les cartes qui lui restent.
 
-La direction artistique tient en une variable. Les deux catégories partagent le
-même noir ; seul l'accent change — ivoire achromatique pour Deep, rouge signal
-pour Crousti. Typographie Instrument Serif pour les questions, Instrument Sans
+La direction artistique tient en une variable. Les trois catégories partagent le
+même noir ; seul l'accent change — bleu pour Warm up, ivoire achromatique pour
+Deep, rouge signal pour Crousti. Typographie Instrument Serif pour les questions, Instrument Sans
 pour l'interface. Et chaque question porte sa propre constellation, générée à
 partir de son texte : la même question donne toujours la même figure, et les 57
 en donnent 57 différentes.
@@ -34,14 +35,15 @@ Tout se passe dans `questions.js`. Un paquet par mode :
 
 ```js
 window.YAPPY_DECKS = {
-  deep: {
-    label: "Deep",
-    tagline: "Pour aller là où on ne va pas d'habitude.",
+  warmup: {
+    label: "Warm up",
+    tagline: "On commence par le commencement.",
     questions: [
       "Une question toute simple.",
       { theme: "Argent", text: "Une question avec son propre libellé." }
     ]
   },
+  deep:    { label: "Deep",    tagline: "…", questions: [ /* … */ ] },
   crousti: { label: "Crousti", tagline: "…", questions: [ /* … */ ] }
 };
 ```
@@ -52,10 +54,12 @@ pas d'importance : chaque paquet est mélangé (Fisher–Yates) à chaque charge
 Les espaces fines insécables avant `?` `!` `:` `;` et dans les guillemets sont
 ajoutées à l'affichage — inutile de s'en occuper dans les données.
 
-Pour ajouter une troisième catégorie : une entrée de plus dans `YAPPY_DECKS`, un
-bouton de plus dans le sélecteur de `index.html` (avec le bon `data-mode`), et
-un bloc de jetons `:root[data-mode="…"]` dans `styles.css` — en pratique, une
-seule couleur à choisir, le reste en découle.
+Pour ajouter une catégorie de plus : une entrée dans `YAPPY_DECKS`, un bouton
+dans le sélecteur de `index.html` (avec le bon `data-mode`), et un bloc de
+jetons `:root[data-mode="…"]` dans `styles.css` — en pratique, une seule
+couleur à choisir, le reste en découle. Rien d'autre à toucher : le sélecteur
+compte ses onglets tout seul, et l'écran de fin nomme les paquets qui restent
+quel que soit leur nombre.
 
 ## Les fichiers
 

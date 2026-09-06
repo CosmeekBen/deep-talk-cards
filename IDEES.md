@@ -5,36 +5,16 @@ Rien ici n'est décidé : c'est une liste d'intentions, pas un cahier des charge
 
 ---
 
-## 1. Un warm up
+## 1. Un warm up — fait, à moitié
 
-**Le problème.** On ouvre le jeu, on tombe sur « De quoi as-tu honte
-aujourd'hui ? » et la table se fige. Les paquets actuels attaquent fort dès la
-première carte, alors qu'une conversation a besoin de quelques minutes pour se
-mettre en route — surtout quand les gens ne se connaissent pas tous.
+Livré comme **une troisième catégorie** : Warm up, bleue, à côté de Deep et
+Crousti, servie au démarrage du jeu. Neuf cartes pour l'instant.
 
-**L'idée.** Des questions plus simples pour ouvrir, avant de basculer sur du
-lourd.
-
-**À trancher avant de coder** — deux lectures possibles de la demande :
-
-- **Une troisième catégorie « Warm up »**, à côté de Deep et Crousti. Trois
-  onglets, trois paquets, on choisit son entrée. Simple, cohérent avec ce qui
-  existe, mais rien n'oblige à commencer par là.
-- **Un échauffement dans chaque catégorie** : un warm up Deep et un warm up
-  Crousti, servis d'office en début de partie, puis on passe au paquet normal.
-  Plus dirigiste, plus proche de l'intention (« au début »), mais ça demande
-  une notion d'ordre là où tout est mélangé aujourd'hui.
-
-Les deux se tiennent. La seconde répond mieux au besoin réel — que la partie
-démarre en douceur sans qu'on ait à y penser — mais elle change la règle du
-paquet unique et mélangé.
-
-**Ce que ça coûte techniquement.** La première : une entrée de plus dans
-`YAPPY_DECKS`, un bouton dans le sélecteur, un bloc de jetons de couleur. Une
-demi-heure. La seconde : une notion de phase dans `app.js` (échauffement →
-cœur), un seuil de bascule, et de quoi le dire à l'écran.
-
----
+Reste la seconde lecture de l'idée, si elle manque à l'usage : un **échauffement
+dans chaque catégorie**, servi d'office en début de partie puis basculant sur le
+paquet normal, plutôt qu'un onglet qu'il faut penser à ouvrir. Plus dirigiste,
+mais ça garantit que la partie démarre en douceur. Ça demanderait une notion de
+phase dans `app.js` là où tout est mélangé aujourd'hui.
 
 ## 2. La carte retournée (« aller plus loin »)
 
@@ -67,13 +47,13 @@ tièdes.
 ## 3. Le reste, en vrac
 
 - **Tirage stratifié** — garantir qu'on ne sorte pas deux questions du même
-  thème d'affilée. Le mélange est aléatoire pur aujourd'hui : sur 51 cartes, il
-  peut sortir trois questions sur l'argent à la suite. Demande de taguer les
-  questions par thème.
+  thème d'affilée. Le mélange est aléatoire pur aujourd'hui. Plus urgent quand
+  Crousti contenait six cartes désignant quelqu'un de présent ; il n'en reste
+  que deux, donc c'est devenu un confort plutôt qu'un correctif.
 - **Manifest PWA** — pour ajouter le jeu à l'écran d'accueil et l'ouvrir sans
   la barre du navigateur. Pour un jeu qu'on se passe à table, ça change le
   ressenti.
-- **Crousti est court** — 14 cartes contre 51 en Deep. Le paquet s'épuise vite.
+- **Les paquets sont déséquilibrés** — 9 en Warm up, 51 en Deep, 15 en Crousti.
 - **Un quasi-doublon en Deep** — « Est-ce que tu crois qu'on peut réellement
   changer pour quelqu'un ? » et « Est-ce que tu crois qu'on peut vraiment
   changer, assez pour mériter une seconde chance ? » s'ouvrent pareil. Soit on

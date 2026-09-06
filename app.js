@@ -128,8 +128,23 @@
   }
 
   function deck() { return decks[mode]; }
-  function otherKey() { return order[0] === mode ? order[1] : order[0]; }
-  function other() { return decks[otherKey()] || null; }
+
+  /* Les autres paquets qui ont encore des cartes, dans l'ordre des onglets
+     à partir du paquet courant. Vaut pour deux catégories comme pour dix. */
+  function autresFournis() {
+    var depart = order.indexOf(mode);
+    var suite = [];
+    for (var n = 1; n < order.length; n++) {
+      var cle = order[(depart + n) % order.length];
+      if (decks[cle] && decks[cle].pool.length) suite.push(cle);
+    }
+    return suite;
+  }
+
+  function enumerer(liste) {
+    if (liste.length < 2) return liste[0] || '';
+    return liste.slice(0, -1).join(', ') + ' et ' + liste[liste.length - 1];
+  }
 
   /* ---------- Rendu ---------- */
 
@@ -240,18 +255,22 @@
 
   function showEnd() {
     var d = deck();
-    var o = other();
+    var suite = autresFournis();
 
     state = 'empty';
     deckEl.classList.add('is-gone');
 
-    var left = o ? o.pool.length : 0;
+    // « 51 cartes en Deep et 15 en Crousti » : le mot ne sert qu'une fois
+    var reste = suite.map(function (cle, i) {
+      var n = decks[cle].pool.length;
+      return (i ? n : plural(n)) + ' en ' + decks[cle].label;
+    });
 
     endTextEl.textContent = 'Les ' + d.total + ' cartes du paquet ' + d.label +
-      ' sont passées.' + (left ? ' Il reste ' + plural(left) + ' en ' + o.label + '.' : '');
+      ' sont passées.' + (reste.length ? ' Il reste ' + enumerer(reste) + '.' : '');
 
-    swapBtn.hidden = !left;
-    if (left) swapBtn.textContent = 'Passer en ' + o.label;
+    swapBtn.hidden = !suite.length;
+    if (suite.length) swapBtn.textContent = 'Passer en ' + decks[suite[0]].label;
 
     endscreen.hidden = false;
     render();
@@ -322,6 +341,7 @@
     });
 
     if (!order.length) return;
+    modesEl.style.setProperty('--n', order.length);
     setMode(order[0], false);
   }
 
@@ -390,7 +410,10 @@
   drawBtn.addEventListener('click', draw);
   nextBtn.addEventListener('click', function () { close(0); });
   restartBtn.addEventListener('click', reshuffle);
-  swapBtn.addEventListener('click', function () { setMode(otherKey(), true); });
+  swapBtn.addEventListener('click', function () {
+    var suite = autresFournis();
+    if (suite.length) setMode(suite[0], true);
+  });
 
   modeBtns.forEach(function (btn) {
     btn.addEventListener('click', function () { setMode(btn.dataset.mode, true); });

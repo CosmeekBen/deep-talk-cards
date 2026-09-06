@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr" data-mode="deep">
+<html lang="fr" data-mode="warmup">
 <head>
 <meta charset="utf-8">
 <title>Yappy Cards — Cartes à questions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<meta name="description" content="Une pile de cartes à piocher pour lancer de vraies conversations. Deux catégories : Deep et Crousti.">
-<meta name="theme-color" content="#08090b">
+<meta name="description" content="Une pile de cartes à piocher pour lancer de vraies conversations. Trois catégories : Warm up, Deep et Crousti.">
+<meta name="theme-color" content="#07080b">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -84,8 +84,9 @@
 
   <footer class="footbar">
     <p class="tagline" id="tagline"></p>
-    <div class="modes" id="modes" role="tablist" aria-label="Mode de jeu">
-      <button class="mode-btn is-on" type="button" role="tab" data-mode="deep" aria-selected="true">Deep</button>
+    <div class="modes" id="modes" role="tablist" aria-label="Catégorie de questions">
+      <button class="mode-btn is-on" type="button" role="tab" data-mode="warmup" aria-selected="true">Warm up</button>
+      <button class="mode-btn" type="button" role="tab" data-mode="deep" aria-selected="false">Deep</button>
       <button class="mode-btn" type="button" role="tab" data-mode="crousti" aria-selected="false">Crousti</button>
     </div>
   </footer>
