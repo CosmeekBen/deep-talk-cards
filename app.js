@@ -196,7 +196,7 @@
     if (!d.pool.length) { showEnd(); return; }
 
     var item = d.pool.pop();
-    sigilEl.innerHTML = sigil(hashText(item.text));
+    sigilEl.innerHTML = item.sigil;
     eyebrowEl.textContent = item.theme || d.label;
     questionEl.textContent = typo(item.text);
     questionEl.classList.toggle('is-long', item.text.length > LONG_QUESTION);
@@ -329,8 +329,26 @@
     order = modeBtns.map(function (btn) { return btn.dataset.mode; })
                     .filter(function (key) { return source[key]; });
 
+    /* Les figures sont attribuées une fois pour toutes, ici plutôt qu'au
+       tirage. Le hachage du texte suffit presque toujours à les séparer,
+       mais sur 85 cartes une collision finit par arriver (paradoxe des
+       anniversaires) : on décale alors la graine jusqu'à une figure libre.
+       Deux cartes ne partagent donc jamais la leur, toutes catégories
+       confondues. En contrepartie, ajouter une question peut déplacer la
+       figure de celle qui la percutait — jamais celle des autres. */
+    var figures = {};
+
     order.forEach(function (key) {
       var raw = normalize(source[key].questions);
+
+      raw.forEach(function (item) {
+        var graine = hashText(item.text);
+        var dessin = sigil(graine);
+        while (figures[dessin]) dessin = sigil(++graine);
+        figures[dessin] = true;
+        item.sigil = dessin;
+      });
+
       decks[key] = {
         label: source[key].label || key,
         tagline: source[key].tagline || '',
