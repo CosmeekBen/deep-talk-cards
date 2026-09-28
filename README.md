@@ -11,8 +11,9 @@ jeu démarre sur Warm up ; on bascule d'une catégorie à l'autre en cours de
 partie sans rien perdre — chaque pile garde les cartes qui lui restent.
 
 La direction artistique tient en une variable. Les trois catégories partagent le
-même noir ; seul l'accent change — bleu pour Warm up, ivoire achromatique pour
-Deep, rouge signal pour Crousti. Typographie Instrument Serif pour les questions, Instrument Sans
+même noir ; seul l'accent change, et il monte en température — vert jade pour
+Warm up, bleu pour Deep, rouge signal pour Crousti. Deep et Crousti portent en
+plus une illustration au dos de leurs cartes, voilée pour rester dans le noir. Typographie Instrument Serif pour les questions, Instrument Sans
 pour l'interface. Et chaque question porte sa propre constellation, générée à
 partir de son texte : la même question donne toujours la même figure, et les 57
 en donnent 57 différentes.

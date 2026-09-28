@@ -2,32 +2,33 @@
    Yappy Cards — feuille de style
    ------------------------------------------------------------
    Un seul monde : le noir. Les catégories ne diffèrent que par leur
-   accent — bleu pour Warm up, ivoire pour Deep, rouge pour Crousti —
-   piloté par [data-mode] sur <html>.
+   accent, qui monte en température — vert pour Warm up, bleu pour Deep,
+   rouge pour Crousti — piloté par [data-mode] sur <html>. :root porte
+   le vert, qui sert aussi de repli.
    Mobile d'abord : plein écran, pas de scroll, safe-areas.
    ============================================================ */
 
 :root {
-  /* --- Deep : noir graphite, accent ivoire (achromatique) --- */
-  --ground:      #08090b;
-  --ground-lift: #101218;   /* halo très bas derrière le paquet */
-  --surface:     #101216;   /* face question, surface soulevée */
-  --back-top:    #16181e;   /* dos de carte, haut */
-  --back-bot:    #0a0b0e;   /* dos de carte, bas */
+  /* --- Warm up : noir tirant sur le vert, accent jade --- */
+  --ground:      #070a09;
+  --ground-lift: #0d1a15;   /* halo très bas derrière le paquet */
+  --surface:     #0e1310;   /* face question, surface soulevée */
+  --back-top:    #141c18;   /* dos de carte, haut */
+  --back-bot:    #090c0a;   /* dos de carte, bas */
   --back-image:  none;      /* illustration du dos, par catégorie */
   --back-ombre:  none;      /* ombre portée du texte, seulement sur illustration */
   --back-veil:   linear-gradient(transparent, transparent); /* voile qui la range dans le noir */
 
-  --ink:         #ece9e3;
-  --ink-soft:    rgba(236, 233, 227, .46);
-  --ink-mid:     rgba(236, 233, 227, .62);
-  --line:        rgba(236, 233, 227, .09);
-  --line-strong: rgba(236, 233, 227, .18);
+  --ink:         #e9f1ec;
+  --ink-soft:    rgba(233, 241, 236, .46);
+  --ink-mid:     rgba(233, 241, 236, .62);
+  --line:        rgba(233, 241, 236, .09);
+  --line-strong: rgba(92, 192, 138, .28);
 
-  --accent:      #e8e4dc;
-  --accent-dim:  rgba(232, 228, 220, .30);
-  --accent-haze: rgba(232, 228, 220, .05);
-  --on-accent:   #0a0a0c;
+  --accent:      #5cc08a;
+  --accent-dim:  rgba(92, 192, 138, .32);
+  --accent-haze: rgba(92, 192, 138, .07);
+  --on-accent:   #060a08;
 
   --radius:      22px;
   --flip:        720ms cubic-bezier(.22, .9, .28, 1);
@@ -38,8 +39,8 @@
   --font-display:'Instrument Serif', 'Times New Roman', Georgia, serif;
 }
 
-/* --- Warm up : même noir, l'accent passe au bleu --- */
-:root[data-mode="warmup"] {
+/* --- Deep : même noir, l'accent passe au bleu --- */
+:root[data-mode="deep"] {
   --ground:      #07080b;
   --ground-lift: #0d1420;
   --surface:     #0e1117;
@@ -56,6 +57,16 @@
   --accent-dim:  rgba(98, 160, 245, .32);
   --accent-haze: rgba(98, 160, 245, .07);
   --on-accent:   #07080b;
+
+  --back-image:  url("images/deep.webp");
+  --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
+  --back-veil:   radial-gradient(80% 30% at 50% 52%,
+                   rgba(7, 8, 11, .88) 0%,
+                   rgba(7, 8, 11, 0) 76%),
+                 linear-gradient(180deg,
+                   rgba(7, 8, 11, .82) 0%,
+                   rgba(7, 8, 11, .76) 45%,
+                   rgba(7, 8, 11, .94) 100%);
 }
 
 /* --- Crousti : même noir, l'accent vire au rouge --- */
