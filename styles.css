@@ -20,13 +20,13 @@
      le texte au-dessus de l'image. */
   --back-image:  url("images/warmup.webp");
   --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
-  --back-veil:   radial-gradient(74% 29% at 50% 51%,
-                   rgba(7, 10, 9, .86) 0%,
-                   rgba(7, 10, 9, 0) 77%),
+  --back-veil:   radial-gradient(70% 28% at 50% 51%,
+                   rgba(7, 10, 9, .80) 0%,
+                   rgba(7, 10, 9, 0) 78%),
                  linear-gradient(180deg,
-                   rgba(7, 10, 9, .82) 0%,
-                   rgba(7, 10, 9, .76) 45%,
-                   rgba(7, 10, 9, .94) 100%);
+                   rgba(7, 10, 9, .87) 0%,
+                   rgba(7, 10, 9, .80) 45%,
+                   rgba(7, 10, 9, .95) 100%);
 
   --ink:         #e9f1ec;
   --ink-soft:    rgba(233, 241, 236, .46);
