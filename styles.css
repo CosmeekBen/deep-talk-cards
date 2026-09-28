@@ -15,9 +15,18 @@
   --surface:     #0e1310;   /* face question, surface soulevée */
   --back-top:    #141c18;   /* dos de carte, haut */
   --back-bot:    #090c0a;   /* dos de carte, bas */
-  --back-image:  none;      /* illustration du dos, par catégorie */
-  --back-ombre:  none;      /* ombre portée du texte, seulement sur illustration */
-  --back-veil:   linear-gradient(transparent, transparent); /* voile qui la range dans le noir */
+  /* Dos de carte : chaque catégorie a son illustration et son voile.
+     Le voile la range dans le noir et dégage l'emblème ; l'ombre tient
+     le texte au-dessus de l'image. */
+  --back-image:  url("images/warmup.webp");
+  --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
+  --back-veil:   radial-gradient(74% 29% at 50% 51%,
+                   rgba(7, 10, 9, .86) 0%,
+                   rgba(7, 10, 9, 0) 77%),
+                 linear-gradient(180deg,
+                   rgba(7, 10, 9, .82) 0%,
+                   rgba(7, 10, 9, .76) 45%,
+                   rgba(7, 10, 9, .94) 100%);
 
   --ink:         #e9f1ec;
   --ink-soft:    rgba(233, 241, 236, .46);
@@ -59,7 +68,6 @@
   --on-accent:   #07080b;
 
   --back-image:  url("images/deep.webp");
-  --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
   --back-veil:   radial-gradient(80% 30% at 50% 52%,
                    rgba(7, 8, 11, .88) 0%,
                    rgba(7, 8, 11, 0) 76%),
@@ -89,7 +97,6 @@
   --on-accent:   #0a0607;
 
   --back-image:  url("images/crousti.webp");
-  --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
   --back-veil:   radial-gradient(64% 27% at 50% 51%,
                    rgba(9, 7, 8, .80) 0%,
                    rgba(9, 7, 8, 0) 78%),

@@ -12,8 +12,8 @@ partie sans rien perdre — chaque pile garde les cartes qui lui restent.
 
 La direction artistique tient en une variable. Les trois catégories partagent le
 même noir ; seul l'accent change, et il monte en température — vert jade pour
-Warm up, bleu pour Deep, rouge signal pour Crousti. Deep et Crousti portent en
-plus une illustration au dos de leurs cartes, voilée pour rester dans le noir. Typographie Instrument Serif pour les questions, Instrument Sans
+Warm up, bleu pour Deep, rouge signal pour Crousti. Chaque catégorie porte en
+plus son illustration au dos des cartes, voilée pour rester dans le noir. Typographie Instrument Serif pour les questions, Instrument Sans
 pour l'interface. Et chaque question porte sa propre constellation, générée à
 partir de son texte : la même question donne toujours la même figure, et les 57
 en donnent 57 différentes.
@@ -55,12 +55,12 @@ pas d'importance : chaque paquet est mélangé (Fisher–Yates) à chaque charge
 Les espaces fines insécables avant `?` `!` `:` `;` et dans les guillemets sont
 ajoutées à l'affichage — inutile de s'en occuper dans les données.
 
-Pour donner une illustration au dos d'une catégorie : poser le fichier dans
-`images/`, puis renseigner deux jetons dans son bloc `:root[data-mode="…"]` —
-`--back-image` (l'URL) et `--back-veil` (le voile sombre qui range l'image dans
-le noir et dégage l'emblème). Sans ces jetons, le dos reste uni. Les images
-tournent autour de 1000 px de large : la carte fait au plus 340 px, soit 1020 px
-sur un écran en 3x.
+Pour changer l'illustration au dos d'une catégorie : poser le fichier dans
+`images/`, puis ajuster deux jetons dans son bloc — `--back-image` (l'URL) et
+`--back-veil` (le voile sombre qui range l'image dans le noir et dégage
+l'emblème). Le voile se règle image par image : il dépend de l'endroit où
+tombent les zones claires sous le texte. Les images tournent autour de 1000 px
+de large — la carte fait au plus 340 px, soit 1020 px sur un écran en 3x.
 
 Pour ajouter une catégorie de plus : une entrée dans `YAPPY_DECKS`, un bouton
 dans le sélecteur de `index.html` (avec le bon `data-mode`), et un bloc de
