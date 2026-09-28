@@ -54,6 +54,13 @@ pas d'importance : chaque paquet est mélangé (Fisher–Yates) à chaque charge
 Les espaces fines insécables avant `?` `!` `:` `;` et dans les guillemets sont
 ajoutées à l'affichage — inutile de s'en occuper dans les données.
 
+Pour donner une illustration au dos d'une catégorie : poser le fichier dans
+`images/`, puis renseigner deux jetons dans son bloc `:root[data-mode="…"]` —
+`--back-image` (l'URL) et `--back-veil` (le voile sombre qui range l'image dans
+le noir et dégage l'emblème). Sans ces jetons, le dos reste uni. Les images
+tournent autour de 1000 px de large : la carte fait au plus 340 px, soit 1020 px
+sur un écran en 3x.
+
 Pour ajouter une catégorie de plus : une entrée dans `YAPPY_DECKS`, un bouton
 dans le sélecteur de `index.html` (avec le bon `data-mode`), et un bloc de
 jetons `:root[data-mode="…"]` dans `styles.css` — en pratique, une seule
@@ -69,6 +76,7 @@ quel que soit leur nombre.
 | `styles.css` | Les jetons de couleur des deux catégories, le style et les animations (retournement 3D, épaisseur du paquet). |
 | `app.js` | Les paquets, le mélange, la pioche, les états de la carte, le générateur de constellations. |
 | `questions.js` | Les données — le seul fichier à toucher pour changer le contenu. |
+| `images/` | Les illustrations du dos des cartes, une par catégorie. |
 
 ## Comment ça marche
 

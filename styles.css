@@ -14,6 +14,9 @@
   --surface:     #101216;   /* face question, surface soulevée */
   --back-top:    #16181e;   /* dos de carte, haut */
   --back-bot:    #0a0b0e;   /* dos de carte, bas */
+  --back-image:  none;      /* illustration du dos, par catégorie */
+  --back-ombre:  none;      /* ombre portée du texte, seulement sur illustration */
+  --back-veil:   linear-gradient(transparent, transparent); /* voile qui la range dans le noir */
 
   --ink:         #ece9e3;
   --ink-soft:    rgba(236, 233, 227, .46);
@@ -73,6 +76,16 @@
   --accent-dim:  rgba(229, 72, 77, .34);
   --accent-haze: rgba(229, 72, 77, .07);
   --on-accent:   #0a0607;
+
+  --back-image:  url("images/crousti.webp");
+  --back-ombre:  0 1px 12px rgba(0, 0, 0, .9);
+  --back-veil:   radial-gradient(64% 27% at 50% 51%,
+                   rgba(9, 7, 8, .80) 0%,
+                   rgba(9, 7, 8, 0) 78%),
+                 linear-gradient(180deg,
+                   rgba(9, 7, 8, .82) 0%,
+                   rgba(9, 7, 8, .76) 45%,
+                   rgba(9, 7, 8, .94) 100%);
 }
 
 * { box-sizing: border-box; }
@@ -298,6 +311,8 @@ body::before {
   border: 1px solid var(--line);
   background:
     radial-gradient(130% 80% at 50% 0%, rgba(255, 255, 255, .05) 0%, transparent 58%),
+    var(--back-veil),
+    var(--back-image) center / cover no-repeat,
     linear-gradient(178deg, var(--back-top) 0%, var(--back-bot) 100%);
   color: var(--accent);
   font: inherit;
@@ -322,7 +337,8 @@ body::before {
 .emblem svg {
   width: clamp(56px, 17vw, 74px);
   height: auto;
-  opacity: .8;
+  opacity: .9;
+  filter: drop-shadow(var(--back-ombre, none));
 }
 
 .face__hint {
@@ -331,13 +347,14 @@ body::before {
   letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--accent);
-  opacity: .55;
+  opacity: .72;
+  text-shadow: var(--back-ombre, none);
   animation: breathe 3.2s ease-in-out infinite;
 }
 
 @keyframes breathe {
-  0%, 100% { opacity: .3; }
-  50%      { opacity: .8; }
+  0%, 100% { opacity: .42; }
+  50%      { opacity: .95; }
 }
 
 /* --- Face question --- */
