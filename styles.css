@@ -97,13 +97,13 @@
   --on-accent:   #0a0607;
 
   --back-image:  url("images/crousti.webp");
-  --back-veil:   radial-gradient(64% 27% at 50% 51%,
-                   rgba(9, 7, 8, .80) 0%,
+  --back-veil:   radial-gradient(66% 28% at 50% 51%,
+                   rgba(9, 7, 8, .78) 0%,
                    rgba(9, 7, 8, 0) 78%),
                  linear-gradient(180deg,
-                   rgba(9, 7, 8, .82) 0%,
-                   rgba(9, 7, 8, .76) 45%,
-                   rgba(9, 7, 8, .94) 100%);
+                   rgba(9, 7, 8, .72) 0%,
+                   rgba(9, 7, 8, .62) 45%,
+                   rgba(9, 7, 8, .90) 100%);
 }
 
 * { box-sizing: border-box; }
